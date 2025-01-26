@@ -49,7 +49,21 @@ class GetAreaScoreAverageUsecaseTest {
         double result = getAreaScoreAverageUsecase.call(area, 7);
 
         assertEquals(2.0, result);
+    }
 
+    @Test
+    void testCall_whenDaysIsZero_shouldThrowException() {
+        Area area = new Area("Fitness");
+        Habit workoutHabit = new Habit(area, "Workout", 2.0);
 
+        workoutHabit.perform(LocalDate.now());
+
+        when(entityManager.createQuery(anyString(), eq(Event.class))).thenReturn(typedQuery);
+        when(typedQuery.setParameter(anyString(), any())).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(workoutHabit.getEvents());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            getAreaScoreAverageUsecase.call(area, 0);
+        });
     }
 }

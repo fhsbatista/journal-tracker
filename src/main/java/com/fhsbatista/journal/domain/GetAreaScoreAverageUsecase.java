@@ -13,7 +13,10 @@ public class GetAreaScoreAverageUsecase {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public double call(Area area, int days) {
+    public double call(Area area, int days) throws IllegalArgumentException{
+        if (days == 0) {
+            throw new IllegalArgumentException("Days must be 1 or greater");
+        }
         LocalDate limitDate = LocalDate.now().minusDays(days - 1);
 
         List<Event> events = entityManager.createQuery(

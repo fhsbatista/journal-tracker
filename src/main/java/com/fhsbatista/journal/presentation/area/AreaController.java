@@ -38,7 +38,7 @@ public class AreaController {
     public ResponseEntity todayAverage(@PathVariable Long id) {
         var area = repository.getReferenceById(id);
 
-        var average = getAreaScoreAverageUsecase.call(area, 0);
+        var average = getAreaScoreAverageUsecase.call(area, 1);
 
         var response = new DateAverageDetails(area.getDescription(), average, LocalDate.now());
 

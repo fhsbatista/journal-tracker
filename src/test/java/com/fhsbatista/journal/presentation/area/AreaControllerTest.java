@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class AreaControllerTest {
@@ -38,11 +39,12 @@ class AreaControllerTest {
         var averageScore = 4.5;
 
         when(repository.getReferenceById(area.getId())).thenReturn(area);
-        when(getAreaScoreAverageUsecase.call(any(), eq(0))).thenReturn(averageScore);
+        when(getAreaScoreAverageUsecase.call(eq(area), eq(1))).thenReturn(averageScore);
 
         var responseEntity = areaController.todayAverage(area.getId());
         DateAverageDetails response = (DateAverageDetails) responseEntity.getBody();
 
+        verify(getAreaScoreAverageUsecase).call(eq(area), eq(1));
         assertEquals(200, responseEntity.getStatusCode().value());
         assertNotNull(response);
         assertEquals("test", response.areaDescription());
