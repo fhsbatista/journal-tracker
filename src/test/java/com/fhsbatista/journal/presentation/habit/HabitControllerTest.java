@@ -49,6 +49,22 @@ class HabitControllerTest {
 
             verify(performHabitUsecase).call(habit);
         }
+
+        @Test
+        void testCall_whenUsecaseSucceeds_shouldReturnCorrectResponse() {
+            var area = new Area("test");
+            var habit = new Habit(area, "test", 1.0 );
+            var expectedEvent = new Event(habit, LocalDate.now(), 1.0);
+
+            when(habitRepository.getReferenceById(eq(habit.getId()))).thenReturn(habit);
+            when(performHabitUsecase.call(eq(habit))).thenReturn(expectedEvent);
+
+            var responseEntity = controller.perform(habit.getId());
+            var response = responseEntity.getBody();
+
+            assertEquals(200, responseEntity.getStatusCode().value());
+            assertEquals(new EventDetails(expectedEvent), response);
+        }
     }
 
 }
