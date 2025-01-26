@@ -3,6 +3,7 @@ package com.fhsbatista.journal.presentation.habit;
 import com.fhsbatista.journal.data.area.AreaRepository;
 import com.fhsbatista.journal.data.habit.EventRepository;
 import com.fhsbatista.journal.data.habit.HabitRepository;
+import com.fhsbatista.journal.domain.PerformHabitUsecase;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class HabitController {
     private AreaRepository areaRepository;
 
     @Autowired
-    private EventRepository eventRepository;
+    private PerformHabitUsecase performHabitUsecase;
 
     @PostMapping
     @Transactional
@@ -41,8 +42,8 @@ public class HabitController {
     @Transactional
     public ResponseEntity perform(@PathVariable Long id) {
         var habit = habitRepository.getReferenceById(id);
-        var eventToSave = habit.perform(LocalDate.now());
-        var event = eventRepository.save(eventToSave);
+
+        var event = performHabitUsecase.call(habit);
 
         return ResponseEntity.ok().body(new EventDetails(event));
     }
