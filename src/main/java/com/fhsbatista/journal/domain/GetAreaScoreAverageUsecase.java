@@ -2,10 +2,13 @@ package com.fhsbatista.journal.domain;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
 public class GetAreaScoreAverageUsecase {
     @PersistenceContext
     private EntityManager entityManager;
