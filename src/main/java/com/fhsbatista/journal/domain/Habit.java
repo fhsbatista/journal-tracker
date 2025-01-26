@@ -35,9 +35,11 @@ public class Habit {
         this.currentScore = currentScore;
     }
 
-    public void perform(LocalDate time) {
+    public Event perform(LocalDate time) {
         var event = new Event(this, time, currentScore);
         this.events.add(event);
+
+        return event;
     }
 
     public void unperform(Event event) {
