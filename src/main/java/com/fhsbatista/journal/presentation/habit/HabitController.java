@@ -37,4 +37,13 @@ public class HabitController {
         return ResponseEntity.created(uri).body(new HabitDetails(habit));
     }
 
+    @PostMapping("/{id}")
+    @Transactional
+    public ResponseEntity perform(@PathVariable Long id) {
+        var habit = habitRepository.getReferenceById(id);
+        var eventToSave = habit.perform(LocalDate.now());
+        var event = eventRepository.save(eventToSave);
+
+        return ResponseEntity.ok().body(new EventDetails(event));
+    }
 }
