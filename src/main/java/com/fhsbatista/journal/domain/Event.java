@@ -1,6 +1,8 @@
 package com.fhsbatista.journal.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Table(name = "events")
@@ -43,5 +45,15 @@ public class Event {
 
     public Double getScore() {
         return score;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Event event = (Event) obj;
+        return Double.compare(event.score, score) == 0 &&
+                Objects.equals(habit, event.habit) &&
+                Objects.equals(time, event.time);
     }
 }
