@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -38,6 +39,22 @@ class PerformHabitUsecaseTest {
 
         verify(eventRepository).save(eq(event));
         assertEquals(event, result);
+    }
+
+    @Test
+    void testCall_whenEventHasAlreadyBeenPerformedOnDat_shouldThrowException() {
+        var area = new Area("test");
+        var habit = new Habit(area, "test", 5.0);
+        var alreadyPerfomedEvents = List.of(new Event(habit, LocalDate.now(), 5.0));
+        var event = new Event(habit, LocalDate.now(), 5.0);
+
+        when(eventRepository.findByTimeAndHabit(eq(LocalDate.now()), eq(habit)))
+                .thenReturn(alreadyPerfomedEvents);
+        when(eventRepository.save(eq(event))).thenReturn(event);
+
+        assertThrows(IllegalStateException.class, () -> {
+            usecase.call(habit);
+        });
     }
 
 }
