@@ -12,8 +12,8 @@ public class PerformHabitUsecase {
     @Autowired
     private EventRepository eventRepository;
 
-    public Event call(Habit habit) throws IllegalStateException {
-        if (isAlreadyPerformed(habit)) throw new IllegalStateException("Cannot perform habit twice on same date");
+    public Event call(Habit habit) throws PerformHabitException {
+        if (isAlreadyPerformed(habit)) throw new PerformHabitException(PerformHabitError.ALREADY_PERFORMED);
         var event = new Event(habit, LocalDate.now(), habit.getCurrentScore());
         return eventRepository.save(event);
     }
@@ -23,3 +23,4 @@ public class PerformHabitUsecase {
         return !events.isEmpty();
     }
 }
+

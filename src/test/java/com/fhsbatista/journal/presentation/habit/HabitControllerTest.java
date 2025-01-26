@@ -1,10 +1,7 @@
 package com.fhsbatista.journal.presentation.habit;
 
 import com.fhsbatista.journal.data.habit.HabitRepository;
-import com.fhsbatista.journal.domain.Area;
-import com.fhsbatista.journal.domain.Event;
-import com.fhsbatista.journal.domain.Habit;
-import com.fhsbatista.journal.domain.PerformHabitUsecase;
+import com.fhsbatista.journal.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,6 +23,9 @@ class HabitControllerTest {
     @Mock
     private HabitRepository habitRepository;
 
+    @Mock
+    private PerformHabitException performHabitException;
+
     @InjectMocks
     private HabitController controller;
 
@@ -37,7 +37,7 @@ class HabitControllerTest {
     @Nested
     class PerformTests {
         @Test
-        void testCall_callsUsecaseCorrectly() {
+        void testCall_callsUsecaseCorrectly() throws PerformHabitException {
             var area = new Area("test");
             var habit = new Habit(area, "test", 1.0 );
             var expectedEvent = new Event(habit, LocalDate.now(), 1.0);
@@ -51,7 +51,7 @@ class HabitControllerTest {
         }
 
         @Test
-        void testCall_whenUsecaseSucceeds_shouldReturnCorrectResponse() {
+        void testCall_whenUsecaseSucceeds_shouldReturnCorrectResponse() throws PerformHabitException {
             var area = new Area("test");
             var habit = new Habit(area, "test", 1.0 );
             var expectedEvent = new Event(habit, LocalDate.now(), 1.0);
@@ -64,6 +64,25 @@ class HabitControllerTest {
 
             assertEquals(200, responseEntity.getStatusCode().value());
             assertEquals(new EventDetails(expectedEvent), response);
+        }
+
+        @Test
+        void testCall_whenUsecaseFailsUseExpectedException_shouldReturnCorrectResponse() throws PerformHabitException {
+            var area = new Area("test");
+            var habit = new Habit(area, "test", 1.0 );
+            var exceptionMessage = "exception message";
+
+            when(habitRepository.getReferenceById(eq(habit.getId()))).thenReturn(habit);
+            when(performHabitUsecase.call(eq(habit))).thenThrow(performHabitException);
+            when(performHabitException.getMessage()).thenReturn(exceptionMessage);
+
+
+            var responseEntity = controller.perform(habit.getId());
+            ErrorDetails response = (ErrorDetails) responseEntity.getBody();
+
+            assertEquals(400, responseEntity.getStatusCode().value());
+            assertNotNull(response);
+            assertEquals(exceptionMessage, response.message());
         }
     }
 

@@ -3,6 +3,7 @@ package com.fhsbatista.journal.presentation.habit;
 import com.fhsbatista.journal.data.area.AreaRepository;
 import com.fhsbatista.journal.data.habit.EventRepository;
 import com.fhsbatista.journal.data.habit.HabitRepository;
+import com.fhsbatista.journal.domain.PerformHabitException;
 import com.fhsbatista.journal.domain.PerformHabitUsecase;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -43,8 +44,11 @@ public class HabitController {
     public ResponseEntity perform(@PathVariable Long id) {
         var habit = habitRepository.getReferenceById(id);
 
-        var event = performHabitUsecase.call(habit);
-
-        return ResponseEntity.ok().body(new EventDetails(event));
+        try {
+            var event = performHabitUsecase.call(habit);
+            return ResponseEntity.ok().body(new EventDetails(event));
+        } catch (PerformHabitException e) {
+            return ResponseEntity.badRequest().body(new ErrorDetails(e.getMessage()));
+        }
     }
 }

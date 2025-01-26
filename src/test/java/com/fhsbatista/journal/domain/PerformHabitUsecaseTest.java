@@ -28,7 +28,7 @@ class PerformHabitUsecaseTest {
     }
 
     @Test
-    void testCall_shouldCreateEventCorrectly() {
+    void testCall_shouldCreateEventCorrectly() throws PerformHabitException {
         var area = new Area("test");
         var habit = new Habit(area, "test", 5.0);
         var event = new Event(habit, LocalDate.now(), 5.0);
@@ -45,14 +45,14 @@ class PerformHabitUsecaseTest {
     void testCall_whenEventHasAlreadyBeenPerformedOnDat_shouldThrowException() {
         var area = new Area("test");
         var habit = new Habit(area, "test", 5.0);
-        var alreadyPerfomedEvents = List.of(new Event(habit, LocalDate.now(), 5.0));
+        var alreadyPerformedEvents = List.of(new Event(habit, LocalDate.now(), 5.0));
         var event = new Event(habit, LocalDate.now(), 5.0);
 
         when(eventRepository.findByTimeAndHabit(eq(LocalDate.now()), eq(habit)))
-                .thenReturn(alreadyPerfomedEvents);
+                .thenReturn(alreadyPerformedEvents);
         when(eventRepository.save(eq(event))).thenReturn(event);
 
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(PerformHabitException.class, () -> {
             usecase.call(habit);
         });
     }
