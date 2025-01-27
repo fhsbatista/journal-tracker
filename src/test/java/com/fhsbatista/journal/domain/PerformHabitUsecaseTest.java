@@ -1,6 +1,7 @@
 package com.fhsbatista.journal.domain;
 
 import com.fhsbatista.journal.data.habit.EventRepository;
+import com.fhsbatista.journal.domain.area.Area;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

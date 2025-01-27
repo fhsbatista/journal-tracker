@@ -1,5 +1,6 @@
-package com.fhsbatista.journal.domain;
+package com.fhsbatista.journal.domain.area;
 
+import com.fhsbatista.journal.domain.Habit;
 import jakarta.persistence.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.fhsbatista.journal.presentation.area;
 
-import com.fhsbatista.journal.domain.Area;
+import com.fhsbatista.journal.domain.area.Area;
 
 public record AreaDetails(
         Long id,

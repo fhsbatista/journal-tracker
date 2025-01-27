@@ -1,8 +1,8 @@
-package com.fhsbatista.journal.domain;
+package com.fhsbatista.journal.domain.area;
 
+import com.fhsbatista.journal.domain.Event;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

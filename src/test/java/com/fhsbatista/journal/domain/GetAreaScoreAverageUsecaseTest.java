@@ -1,5 +1,7 @@
 package com.fhsbatista.journal.domain;
 
+import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package com.fhsbatista.journal.presentation.area;
 
 import com.fhsbatista.journal.data.area.AreaRepository;
-import com.fhsbatista.journal.domain.GetAreaScoreAverageUsecase;
+import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
 import com.fhsbatista.journal.presentation.area.dto.AreaRegisterDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

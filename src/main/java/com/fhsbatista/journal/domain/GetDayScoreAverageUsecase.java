@@ -1,8 +1,9 @@
 package com.fhsbatista.journal.domain;
 
+import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;

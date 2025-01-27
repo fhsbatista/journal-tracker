@@ -1,6 +1,5 @@
 package com.fhsbatista.journal.presentation.habit;
 
-import com.fhsbatista.journal.domain.Area;
 import com.fhsbatista.journal.domain.Habit;
 import com.fhsbatista.journal.presentation.area.AreaDetails;
 

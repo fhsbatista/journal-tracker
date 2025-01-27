@@ -1,8 +1,8 @@
 package com.fhsbatista.journal.presentation.area;
 
 import com.fhsbatista.journal.data.area.AreaRepository;
-import com.fhsbatista.journal.domain.Area;
-import com.fhsbatista.journal.domain.GetAreaScoreAverageUsecase;
+import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
