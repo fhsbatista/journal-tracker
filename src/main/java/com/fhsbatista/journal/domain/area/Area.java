@@ -27,6 +27,10 @@ public class Area {
         this.description = description;
     }
 
+    public Area(Long id, String description) {
+        this.description = description;
+    }
+
 
     public Long getId() {
         return id;

@@ -36,5 +36,4 @@ class ListAreasUsecaseTest {
 
         assertEquals(areas, result);
     }
-
 }

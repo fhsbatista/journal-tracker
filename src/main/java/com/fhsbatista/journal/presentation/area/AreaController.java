@@ -2,6 +2,7 @@ package com.fhsbatista.journal.presentation.area;
 
 import com.fhsbatista.journal.data.area.AreaRepository;
 import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
+import com.fhsbatista.journal.domain.area.ListAreasUsecase;
 import com.fhsbatista.journal.presentation.area.dto.AreaRegisterDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/areas")
@@ -20,6 +22,9 @@ public class AreaController {
 
     @Autowired
     private GetAreaScoreAverageUsecase getAreaScoreAverageUsecase;
+
+    @Autowired
+    private ListAreasUsecase listAreasUsecase;
 
     @PostMapping
     @Transactional
@@ -32,6 +37,18 @@ public class AreaController {
         var uri = uriBuilder.path("/areas/{id}").buildAndExpand(area.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new AreaDetails(area));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AreaDetails>> list() {
+        var list = listAreasUsecase.call();
+
+        var response = list
+                .stream()
+                .map(AreaDetails::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/today_average")
