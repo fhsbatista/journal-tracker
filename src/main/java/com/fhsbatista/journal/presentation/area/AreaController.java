@@ -2,6 +2,7 @@ package com.fhsbatista.journal.presentation.area;
 
 import com.fhsbatista.journal.data.area.AreaRepository;
 import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
+import com.fhsbatista.journal.domain.area.GetAreaUsecase;
 import com.fhsbatista.journal.domain.area.ListAreasUsecase;
 import com.fhsbatista.journal.presentation.area.dto.AreaRegisterDTO;
 import jakarta.transaction.Transactional;
@@ -25,6 +26,15 @@ public class AreaController {
 
     @Autowired
     private ListAreasUsecase listAreasUsecase;
+
+    @Autowired
+    private GetAreaUsecase getAreaUsecase;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AreaDetails> get(@PathVariable Long id) {
+        var area = getAreaUsecase.call(id);
+        return ResponseEntity.ok(new AreaDetails(area));
+    }
 
     @PostMapping
     @Transactional

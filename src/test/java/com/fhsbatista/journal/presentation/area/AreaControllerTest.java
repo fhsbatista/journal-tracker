@@ -3,6 +3,7 @@ package com.fhsbatista.journal.presentation.area;
 import com.fhsbatista.journal.data.area.AreaRepository;
 import com.fhsbatista.journal.domain.area.Area;
 import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
+import com.fhsbatista.journal.domain.area.GetAreaUsecase;
 import com.fhsbatista.journal.domain.area.ListAreasUsecase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,12 +30,28 @@ class AreaControllerTest {
     @Mock
     private ListAreasUsecase listAreasUsecase;
 
+    @Mock
+    private GetAreaUsecase getAreaUsecase;
+
     @InjectMocks
     private AreaController areaController;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void get_onUsecaseSuccess_returnsCorrectResponse() {
+        var area = new Area(1L, "test");
+        when(getAreaUsecase.call(eq(area.getId()))).thenReturn(area);
+
+        var responseEntity = areaController.get(area.getId());
+        AreaDetails response = responseEntity.getBody();
+
+        assertEquals(200, responseEntity.getStatusCode().value());
+        assertNotNull(response);
+        assertEquals(response, new AreaDetails(area));
     }
 
     @Test
