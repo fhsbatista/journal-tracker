@@ -1,10 +1,7 @@
 package com.fhsbatista.journal.presentation.area;
 
 import com.fhsbatista.journal.data.area.AreaRepository;
-import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
-import com.fhsbatista.journal.domain.area.GetAreaUsecase;
-import com.fhsbatista.journal.domain.area.ListAreasUsecase;
-import com.fhsbatista.journal.domain.area.UpdateAreaUsecase;
+import com.fhsbatista.journal.domain.area.*;
 import com.fhsbatista.journal.presentation.area.body.AreaRegisterBody;
 import com.fhsbatista.journal.presentation.area.body.AreaUpdateBody;
 import jakarta.transaction.Transactional;
@@ -34,6 +31,9 @@ public class AreaController {
 
     @Autowired
     private UpdateAreaUsecase updateAreaUsecase;
+
+    @Autowired
+    private DeleteAreaUsecase deleteAreaUsecase;
 
     @GetMapping("/{id}")
     public ResponseEntity<AreaDetails> get(@PathVariable Long id) {
@@ -72,6 +72,14 @@ public class AreaController {
         var result = updateAreaUsecase.call(body.toDto());
 
         return ResponseEntity.ok(new AreaDetails(result));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        deleteAreaUsecase.call(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/today_average")

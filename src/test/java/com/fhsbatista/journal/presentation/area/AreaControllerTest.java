@@ -34,6 +34,9 @@ class AreaControllerTest {
     @Mock
     private UpdateAreaUsecase updateAreaUsecase;
 
+    @Mock
+    private DeleteAreaUsecase deleteAreaUsecase;
+
     @InjectMocks
     private AreaController areaController;
 
@@ -73,7 +76,7 @@ class AreaControllerTest {
     }
 
     @Test
-    void update_onUsecaesSuccess_returnsCorrectResponse() {
+    void update_onUsecaseSuccess_returnsCorrectResponse() {
         var body = new AreaUpdateBody(1L, "updated area");
         var updatedArea = body.toDto().toArea();
 
@@ -85,6 +88,13 @@ class AreaControllerTest {
         assertEquals(200, responseEntity.getStatusCode().value());
         assertNotNull(response);
         assertEquals(response, new AreaDetails(body.toDto().toArea()));
+    }
+
+    @Test
+    void delete_onUsecaseSuccess_returnsCorrectResponse() {
+        areaController.delete(1L);
+
+        verify(deleteAreaUsecase).call(eq(1L));
     }
 
     @Test
