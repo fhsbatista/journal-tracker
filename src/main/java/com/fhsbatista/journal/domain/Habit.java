@@ -1,5 +1,6 @@
 package com.fhsbatista.journal.domain;
 
+import com.fhsbatista.journal.domain.area.Area;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

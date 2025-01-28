@@ -3,10 +3,8 @@ package com.fhsbatista.journal.domain;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.fhsbatista.journal.domain.Area;
-import com.fhsbatista.journal.domain.Event;
-import com.fhsbatista.journal.domain.GetDayScoreAverageUsecase;
-import com.fhsbatista.journal.domain.Habit;
+import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -15,7 +13,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GetDayScoreAverageUsecaseTest {
     @InjectMocks
