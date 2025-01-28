@@ -1,6 +1,7 @@
 package com.fhsbatista.journal.domain.area;
 
 import com.fhsbatista.journal.domain.Habit;
+import com.fhsbatista.journal.domain.area.dto.AreaUpdateDTO;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -42,5 +43,11 @@ public class Area {
 
     public List<Habit> getHabits() {
         return habits;
+    }
+
+    public void updateData(AreaUpdateDTO dto) {
+        if (dto.description() != null) {
+            this.description = dto.description();
+        }
     }
 }
