@@ -1,10 +1,8 @@
 package com.fhsbatista.journal.presentation.area;
 
 import com.fhsbatista.journal.data.area.AreaRepository;
-import com.fhsbatista.journal.domain.area.Area;
-import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
-import com.fhsbatista.journal.domain.area.GetAreaUsecase;
-import com.fhsbatista.journal.domain.area.ListAreasUsecase;
+import com.fhsbatista.journal.domain.area.*;
+import com.fhsbatista.journal.presentation.area.body.AreaUpdateBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -32,6 +30,9 @@ class AreaControllerTest {
 
     @Mock
     private GetAreaUsecase getAreaUsecase;
+
+    @Mock
+    private UpdateAreaUsecase updateAreaUsecase;
 
     @InjectMocks
     private AreaController areaController;
@@ -69,6 +70,21 @@ class AreaControllerTest {
         assertEquals(200, responseEntity.getStatusCode().value());
         assertNotNull(response);
         assertEquals(response, areas.stream().map(AreaDetails::new).toList());
+    }
+
+    @Test
+    void update_onUsecaesSuccess_returnsCorrectResponse() {
+        var body = new AreaUpdateBody(1L, "updated area");
+        var updatedArea = body.toDto().toArea();
+
+        when(updateAreaUsecase.call(eq(body.toDto()))).thenReturn(updatedArea);
+
+        var responseEntity = areaController.update(body);
+        var response = responseEntity.getBody();
+
+        assertEquals(200, responseEntity.getStatusCode().value());
+        assertNotNull(response);
+        assertEquals(response, new AreaDetails(body.toDto().toArea()));
     }
 
     @Test

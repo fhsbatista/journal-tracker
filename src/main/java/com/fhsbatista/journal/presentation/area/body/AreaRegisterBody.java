@@ -1,9 +1,9 @@
-package com.fhsbatista.journal.presentation.area.dto;
+package com.fhsbatista.journal.presentation.area.body;
 
 import com.fhsbatista.journal.domain.area.Area;
 import jakarta.validation.constraints.NotBlank;
 
-public record AreaRegisterDTO(
+public record AreaRegisterBody(
         @NotBlank
         String description
 ) {

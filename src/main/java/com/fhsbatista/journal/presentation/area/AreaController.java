@@ -4,7 +4,9 @@ import com.fhsbatista.journal.data.area.AreaRepository;
 import com.fhsbatista.journal.domain.area.GetAreaScoreAverageUsecase;
 import com.fhsbatista.journal.domain.area.GetAreaUsecase;
 import com.fhsbatista.journal.domain.area.ListAreasUsecase;
-import com.fhsbatista.journal.presentation.area.dto.AreaRegisterDTO;
+import com.fhsbatista.journal.domain.area.UpdateAreaUsecase;
+import com.fhsbatista.journal.presentation.area.body.AreaRegisterBody;
+import com.fhsbatista.journal.presentation.area.body.AreaUpdateBody;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class AreaController {
     @Autowired
     private GetAreaUsecase getAreaUsecase;
 
+    @Autowired
+    private UpdateAreaUsecase updateAreaUsecase;
+
     @GetMapping("/{id}")
     public ResponseEntity<AreaDetails> get(@PathVariable Long id) {
         var area = getAreaUsecase.call(id);
@@ -39,7 +44,7 @@ public class AreaController {
     @PostMapping
     @Transactional
     public ResponseEntity create(
-            @RequestBody @Valid AreaRegisterDTO dto,
+            @RequestBody @Valid AreaRegisterBody dto,
             UriComponentsBuilder uriBuilder
     ) {
         var area = repository.save(dto.toArea());
@@ -59,6 +64,14 @@ public class AreaController {
                 .toList();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<AreaDetails> update(@RequestBody @Valid AreaUpdateBody body) {
+        var result = updateAreaUsecase.call(body.toDto());
+
+        return ResponseEntity.ok(new AreaDetails(result));
     }
 
     @GetMapping("/{id}/today_average")
