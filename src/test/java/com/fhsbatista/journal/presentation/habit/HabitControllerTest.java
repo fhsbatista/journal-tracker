@@ -3,10 +3,7 @@ package com.fhsbatista.journal.presentation.habit;
 import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.*;
 import com.fhsbatista.journal.domain.area.Area;
-import com.fhsbatista.journal.domain.habit.GetHabitUsecase;
-import com.fhsbatista.journal.domain.habit.Habit;
-import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
-import com.fhsbatista.journal.domain.habit.UpdateHabitUsecase;
+import com.fhsbatista.journal.domain.habit.*;
 import com.fhsbatista.journal.presentation.area.AreaDetails;
 import com.fhsbatista.journal.presentation.area.body.AreaUpdateBody;
 import com.fhsbatista.journal.presentation.habit.body.HabitUpdateBody;
@@ -42,6 +39,9 @@ class HabitControllerTest {
 
     @Mock
     private UpdateHabitUsecase updateHabitUsecase;
+
+    @Mock
+    private DeleteHabitUsecase deleteHabitUsecase;
 
     @InjectMocks
     private HabitController controller;
@@ -97,6 +97,13 @@ class HabitControllerTest {
         assertEquals(200, responseEntity.getStatusCode().value());
         assertNotNull(response);
         assertEquals(response, new HabitDetails(updatedHabit));
+    }
+
+    @Test
+    void delete_onUsecaseSuccess_returnsCorrectResponse() {
+        controller.delete(1L);
+
+        verify(deleteHabitUsecase).call(eq(1L));
     }
 
     @Nested

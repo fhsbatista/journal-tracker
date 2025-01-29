@@ -5,10 +5,7 @@ import com.fhsbatista.journal.data.habit.EventRepository;
 import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.PerformHabitException;
 import com.fhsbatista.journal.domain.PerformHabitUsecase;
-import com.fhsbatista.journal.domain.habit.GetHabitUsecase;
-import com.fhsbatista.journal.domain.habit.Habit;
-import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
-import com.fhsbatista.journal.domain.habit.UpdateHabitUsecase;
+import com.fhsbatista.journal.domain.habit.*;
 import com.fhsbatista.journal.presentation.habit.body.HabitUpdateBody;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -41,6 +38,9 @@ public class HabitController {
     @Autowired
     private UpdateHabitUsecase updateHabitUsecase;
 
+    @Autowired
+    private DeleteHabitUsecase deleteHabitUsecase;
+
     @PostMapping
     @Transactional
     public ResponseEntity create(
@@ -72,6 +72,14 @@ public class HabitController {
     public ResponseEntity<HabitDetails> update(@RequestBody @Valid HabitUpdateBody body) {
         var response = updateHabitUsecase.call(body.toDto());
         return ResponseEntity.ok(new HabitDetails(response));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        deleteHabitUsecase.call(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}")
