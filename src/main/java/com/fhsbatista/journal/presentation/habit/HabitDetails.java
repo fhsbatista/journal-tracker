@@ -1,6 +1,6 @@
 package com.fhsbatista.journal.presentation.habit;
 
-import com.fhsbatista.journal.domain.Habit;
+import com.fhsbatista.journal.domain.habit.Habit;
 import com.fhsbatista.journal.presentation.area.AreaDetails;
 
 public record HabitDetails(

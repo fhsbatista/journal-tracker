@@ -1,6 +1,6 @@
 package com.fhsbatista.journal.domain.area;
 
-import com.fhsbatista.journal.domain.Habit;
+import com.fhsbatista.journal.domain.habit.Habit;
 import com.fhsbatista.journal.domain.area.dto.AreaUpdateDTO;
 import jakarta.persistence.*;
 
