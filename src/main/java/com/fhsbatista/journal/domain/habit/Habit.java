@@ -2,6 +2,7 @@ package com.fhsbatista.journal.domain.habit;
 
 import com.fhsbatista.journal.domain.Event;
 import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.habit.dto.HabitUpdateDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -30,6 +31,12 @@ public class Habit {
     private Double currentScore;
 
     public Habit() {}
+
+    public Habit(Long id, Area area, String description, Double currentScore) {
+        this.area = area;
+        this.description = description;
+        this.currentScore = currentScore;
+    }
 
     public Habit(Area area, String description, Double currentScore) {
         this.area = area;
@@ -67,5 +74,15 @@ public class Habit {
 
     public Double getCurrentScore() {
         return currentScore;
+    }
+
+    public void updateData(HabitUpdateDTO dto) {
+        if (dto.description() != null) {
+            this.description = dto.description();
+        }
+
+        if (dto.currentScore() != null) {
+            this.currentScore = dto.currentScore();
+        }
     }
 }
