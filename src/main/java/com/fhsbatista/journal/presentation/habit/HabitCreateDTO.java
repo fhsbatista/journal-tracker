@@ -1,7 +1,7 @@
 package com.fhsbatista.journal.presentation.habit;
 
 import com.fhsbatista.journal.domain.area.Area;
-import com.fhsbatista.journal.domain.Habit;
+import com.fhsbatista.journal.domain.habit.Habit;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

@@ -3,6 +3,7 @@ package com.fhsbatista.journal.presentation.habit;
 import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.*;
 import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.habit.Habit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

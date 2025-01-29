@@ -1,5 +1,6 @@
-package com.fhsbatista.journal.domain;
+package com.fhsbatista.journal.domain.habit;
 
+import com.fhsbatista.journal.domain.Event;
 import com.fhsbatista.journal.domain.area.Area;
 import jakarta.persistence.*;
 

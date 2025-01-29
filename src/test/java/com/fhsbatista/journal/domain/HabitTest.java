@@ -1,6 +1,7 @@
 package com.fhsbatista.journal.domain;
 
 import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.habit.Habit;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

@@ -3,6 +3,7 @@ package com.fhsbatista.journal.domain;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fhsbatista.journal.domain.habit.Habit;
 import jakarta.persistence.*;
 
 @Table(name = "events")
