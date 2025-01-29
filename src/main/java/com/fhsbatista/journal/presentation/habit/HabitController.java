@@ -5,6 +5,8 @@ import com.fhsbatista.journal.data.habit.EventRepository;
 import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.PerformHabitException;
 import com.fhsbatista.journal.domain.PerformHabitUsecase;
+import com.fhsbatista.journal.domain.habit.Habit;
+import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/habits")
@@ -26,6 +29,9 @@ public class HabitController {
     @Autowired
     private PerformHabitUsecase performHabitUsecase;
 
+    @Autowired
+    private ListHabitsUsecase listHabitsUsecase;
+
     @PostMapping
     @Transactional
     public ResponseEntity create(
@@ -37,6 +43,13 @@ public class HabitController {
         var uri = uriBuilder.path("/habits/{id}").buildAndExpand(habit.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new HabitDetails(habit));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HabitDetails>> list() {
+        var list = listHabitsUsecase.call();
+        var response = list.stream().map(HabitDetails::new).toList();
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{id}")

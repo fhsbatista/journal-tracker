@@ -4,6 +4,8 @@ import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.*;
 import com.fhsbatista.journal.domain.area.Area;
 import com.fhsbatista.journal.domain.habit.Habit;
+import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
+import com.fhsbatista.journal.presentation.area.AreaDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -28,12 +31,33 @@ class HabitControllerTest {
     @Mock
     private PerformHabitException performHabitException;
 
+    @Mock
+    private ListHabitsUsecase listHabitsUsecase;
+
     @InjectMocks
     private HabitController controller;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void list_onUsecaseSuccess_returnsCorrectResponse() {
+        var area = new Area("test");
+        var habits = List.of(
+                new Habit(area, "test1", 1.0),
+                new Habit(area, "test2", 1.0)
+        );
+
+        when(listHabitsUsecase.call()).thenReturn(habits);
+
+        var responseEntity = controller.list();
+        List<HabitDetails> response = responseEntity.getBody();
+
+        assertEquals(200, responseEntity.getStatusCode().value());
+        assertNotNull(response);
+        assertEquals(response, habits.stream().map(HabitDetails::new).toList());
     }
 
     @Nested
