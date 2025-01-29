@@ -3,6 +3,7 @@ package com.fhsbatista.journal.presentation.habit;
 import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.*;
 import com.fhsbatista.journal.domain.area.Area;
+import com.fhsbatista.journal.domain.habit.GetHabitUsecase;
 import com.fhsbatista.journal.domain.habit.Habit;
 import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
 import com.fhsbatista.journal.presentation.area.AreaDetails;
@@ -34,12 +35,29 @@ class HabitControllerTest {
     @Mock
     private ListHabitsUsecase listHabitsUsecase;
 
+    @Mock
+    private GetHabitUsecase getHabitUsecase;
+
     @InjectMocks
     private HabitController controller;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void get_onUsecaseSuccess_returnsCorrectResponse() {
+        var area = new Area(1L, "test");
+        var habit = new Habit(area, "test 1", 1.0);
+        when(getHabitUsecase.call(eq(area.getId()))).thenReturn(habit);
+
+        var responseEntity = controller.get(habit.getId());
+        HabitDetails response = responseEntity.getBody();
+
+        assertEquals(200, responseEntity.getStatusCode().value());
+        assertNotNull(response);
+        assertEquals(response, new HabitDetails(habit));
     }
 
     @Test

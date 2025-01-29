@@ -5,6 +5,7 @@ import com.fhsbatista.journal.data.habit.EventRepository;
 import com.fhsbatista.journal.data.habit.HabitRepository;
 import com.fhsbatista.journal.domain.PerformHabitException;
 import com.fhsbatista.journal.domain.PerformHabitUsecase;
+import com.fhsbatista.journal.domain.habit.GetHabitUsecase;
 import com.fhsbatista.journal.domain.habit.Habit;
 import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,9 @@ public class HabitController {
     @Autowired
     private ListHabitsUsecase listHabitsUsecase;
 
+    @Autowired
+    private GetHabitUsecase getHabitUsecase;
+
     @PostMapping
     @Transactional
     public ResponseEntity create(
@@ -43,6 +47,12 @@ public class HabitController {
         var uri = uriBuilder.path("/habits/{id}").buildAndExpand(habit.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new HabitDetails(habit));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HabitDetails> get(@PathVariable Long id) {
+        var habit = getHabitUsecase.call(id);
+        return ResponseEntity.ok(new HabitDetails(habit));
     }
 
     @GetMapping
