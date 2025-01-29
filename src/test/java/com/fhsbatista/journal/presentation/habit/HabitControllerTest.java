@@ -6,7 +6,10 @@ import com.fhsbatista.journal.domain.area.Area;
 import com.fhsbatista.journal.domain.habit.GetHabitUsecase;
 import com.fhsbatista.journal.domain.habit.Habit;
 import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
+import com.fhsbatista.journal.domain.habit.UpdateHabitUsecase;
 import com.fhsbatista.journal.presentation.area.AreaDetails;
+import com.fhsbatista.journal.presentation.area.body.AreaUpdateBody;
+import com.fhsbatista.journal.presentation.habit.body.HabitUpdateBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,8 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class HabitControllerTest {
     @Mock
@@ -37,6 +39,9 @@ class HabitControllerTest {
 
     @Mock
     private GetHabitUsecase getHabitUsecase;
+
+    @Mock
+    private UpdateHabitUsecase updateHabitUsecase;
 
     @InjectMocks
     private HabitController controller;
@@ -76,6 +81,22 @@ class HabitControllerTest {
         assertEquals(200, responseEntity.getStatusCode().value());
         assertNotNull(response);
         assertEquals(response, habits.stream().map(HabitDetails::new).toList());
+    }
+
+    @Test
+    void update_onUsecaseSuccess_returnsCorrectResponse() {
+        var body = new HabitUpdateBody(1L, "updated area", 1.0);
+        var area = new Area("test");
+        var updatedHabit = new Habit(1L, area, "updated habit", 2.0);
+
+        when(updateHabitUsecase.call(eq(body.toDto()))).thenReturn(updatedHabit);
+
+        var responseEntity = controller.update(body);
+        var response = responseEntity.getBody();
+
+        assertEquals(200, responseEntity.getStatusCode().value());
+        assertNotNull(response);
+        assertEquals(response, new HabitDetails(updatedHabit));
     }
 
     @Nested

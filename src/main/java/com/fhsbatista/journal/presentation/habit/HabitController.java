@@ -8,6 +8,8 @@ import com.fhsbatista.journal.domain.PerformHabitUsecase;
 import com.fhsbatista.journal.domain.habit.GetHabitUsecase;
 import com.fhsbatista.journal.domain.habit.Habit;
 import com.fhsbatista.journal.domain.habit.ListHabitsUsecase;
+import com.fhsbatista.journal.domain.habit.UpdateHabitUsecase;
+import com.fhsbatista.journal.presentation.habit.body.HabitUpdateBody;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class HabitController {
     @Autowired
     private GetHabitUsecase getHabitUsecase;
 
+    @Autowired
+    private UpdateHabitUsecase updateHabitUsecase;
+
     @PostMapping
     @Transactional
     public ResponseEntity create(
@@ -60,6 +65,13 @@ public class HabitController {
         var list = listHabitsUsecase.call();
         var response = list.stream().map(HabitDetails::new).toList();
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<HabitDetails> update(@RequestBody @Valid HabitUpdateBody body) {
+        var response = updateHabitUsecase.call(body.toDto());
+        return ResponseEntity.ok(new HabitDetails(response));
     }
 
     @PostMapping("/{id}")
