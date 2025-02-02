@@ -1,0 +1,1 @@
+export './load_areas_factory.dart';

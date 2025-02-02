@@ -9,6 +9,6 @@ class GetxSplashPresenter extends GetxController with GetxNavigation implements 
   @override
   Future<void> init({int delayInSeconds = 2}) async {
     await Future.delayed(Duration(seconds: 2));
-    // navigateTo = 'home';
+    navigateTo = '/areas';
   }
 }

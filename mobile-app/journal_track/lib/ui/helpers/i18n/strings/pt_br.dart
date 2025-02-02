@@ -7,5 +7,9 @@ class PtBr implements Translations {
 
   String get msgUnexpectedError => 'Algo errado aconteceu. Tente novamente em breve.';
 
+  String get holdOn => 'Aguarde...';
   String get reload => 'Recarregar';
+
+  //Areas
+  String get areas => 'Areas';
 }

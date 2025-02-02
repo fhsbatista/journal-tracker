@@ -3,5 +3,9 @@ abstract class Translations {
 
   String get msgUnexpectedError;
   
+  String get holdOn;
   String get reload;
+
+  //Areas
+  String get areas;
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import './factories/factories.dart';
 
@@ -12,6 +12,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
     return GetMaterialApp(
       title: 'Journal Track',
       debugShowCheckedModeBanner: false,
@@ -21,6 +22,11 @@ class App extends StatelessWidget {
           name: '/',
           page: makeSplashPage,
           transition: Transition.fade,
+        ),
+        GetPage(
+          name: '/areas',
+          page: makeAreasPage,
+          transition: Transition.fadeIn,
         )
       ],
     );
