@@ -1,0 +1,1 @@
+export './fake_areas_factory.dart';
