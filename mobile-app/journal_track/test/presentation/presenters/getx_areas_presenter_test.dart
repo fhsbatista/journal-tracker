@@ -3,6 +3,7 @@ import 'package:journal_track/domain/entities/entities.dart';
 import 'package:journal_track/domain/helpers/helpers.dart';
 import 'package:journal_track/domain/usecases/usecases.dart';
 import 'package:journal_track/presentation/presenters/getx_areas_presenter.dart';
+import 'package:journal_track/ui/pages/areas/areas.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mocks.dart';
@@ -33,4 +34,18 @@ void main() {
 
     verify(loadAreas.load).called(1);
   });
+
+  test('Should emit correct events on LoadAreas success', () async {
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    sut.areasStream.listen(expectAsync1(
+      (areas) => expect(areas, [
+        AreaViewModel(id: areas[0].id, description: areas[0].description),
+        AreaViewModel(id: areas[1].id, description: areas[1].description),
+        AreaViewModel(id: areas[2].id, description: areas[2].description),
+        AreaViewModel(id: areas[3].id, description: areas[3].description),
+      ]),
+    ));
+
+    await sut.loadData();
+  }); 
 }
