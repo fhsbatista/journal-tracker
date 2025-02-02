@@ -3,6 +3,7 @@ import 'package:journal_track/domain/entities/entities.dart';
 import 'package:journal_track/domain/helpers/helpers.dart';
 import 'package:journal_track/domain/usecases/usecases.dart';
 import 'package:journal_track/presentation/presenters/getx_areas_presenter.dart';
+import 'package:journal_track/ui/errors/errors.dart';
 import 'package:journal_track/ui/pages/areas/areas.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -47,5 +48,17 @@ void main() {
     ));
 
     await sut.loadData();
-  }); 
+  });
+
+  test('Should emit correct events on LoadAreas failure', () async {
+    mockLoadAreasError();
+
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    sut.areasStream.listen(
+      null,
+      onError: (error, _) => expect(error, UiError.unexpected.description),
+    );
+
+    await sut.loadData();
+  });
 }
